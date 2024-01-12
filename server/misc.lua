@@ -11,7 +11,7 @@ _G.Utilities = {
 	isDebugEnabled = (GetResourceMetadata(GetCurrentResourceName(), 'debug_log') == 'yes'),
 	debugFormatted = GetResourceMetadata(GetCurrentResourceName(), 'debug_message') or '[INSTANCE] Player %s entered instance %s'
 }
-setmetatable(U, {
+setmetatable(Utilities, {
 	__index = {
 		DebugMessage = function(self, playerId, instanceId)
 			if self.isDebugEnabled then
@@ -79,11 +79,11 @@ setmetatable(U, {
 	}
 })
 
-AddEventHandler('__instance_internal:instance:player:add', function(...) U:EnsureAddPlayer(...) end)
-AddEventHandler('__instance_internal:instance:player:remove', function(...) U:EnsureRemovePlayer(...) end)
+AddEventHandler('__instance_internal:instance:player:add', function(...) Utilities:EnsureAddPlayer(...) end)
+AddEventHandler('__instance_internal:instance:player:remove', function(...) Utilities:EnsureRemovePlayer(...) end)
 AddEventHandler('__instance_internal:instance:players:get', function(inIndex, cb)
-	if U:Ensure(inIndex, 'number') then
-		if U:EnsureInstance(inIndex) then
+	if Utilities:Ensure(inIndex, 'number') then
+		if Utilities:EnsureInstance(inIndex) then
 			cb(Instances[inIndex].players)
 		end
 	end
